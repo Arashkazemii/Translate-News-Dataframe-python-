@@ -1,27 +1,33 @@
-# First we import all we need
+First we import all we need
+```Python
 import bs4 as bs
 import urllib.request
 import pandas as pd
 from googletrans import Translator
 
 translator = Translator()
-
-# Getting URL with urllib
+```
+Getting URL with urllib
+```Python
 source = urllib.request.urlopen('https://www.steelorbis.com/steel-news/latest-news/').read()
-
-# Create Soup with bs4 (html5lib)
+```
+Create Soup with bs4 (html5lib)
+```Python
 soup = bs.BeautifulSoup(source, 'html5lib')
-
-# Now we Get the content we want and drag them into the list
+```
+Now we Get the content we want and drag them into the list
+```Python
 htext_list = []
 for tags in soup.findAll('h3'):
     htext = tags.text.strip()
     htext_list.append(htext.replace('Free\n\t\t\t\t\t\t', ''))
-
-# Pandas dataframe
+```
+Pandas dataframe
+```Python
 df = pd.DataFrame({'NEWS': htext_list})
-
-# Now translate the content with googletrans
+```
+Now translate the content with googletrans
+```Python
 listres = []
 for i in df['NEWS']:
     res = translator.translate(i, dest = 'fa') # dest is to Persian here
@@ -29,3 +35,4 @@ for i in df['NEWS']:
     
 translated_df = pd.DataFrame({'NEWS' : listres})
 print('Succesful')
+```
